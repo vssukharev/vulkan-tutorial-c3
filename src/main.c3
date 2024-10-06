@@ -1,32 +1,67 @@
 
 module tutorial;
 
+import vulkan, glfw;
+import tutorial::cfg, tutorial::helpers;
 import std::io;
-import vulkan;
-import glfw;
 
-const int WIDTH = 800;
-const int HEIGHT = 600;
+// ____________________________________________
+// ----------------- Types --------------------
+
+struct Data 
+{
+  Vulkan vulkan;
+  Meta meta; 
+}
+
+struct Vulkan
+{
+  VkInstance instance;
+}
+
+struct Meta
+{
+  ZString binary_path;
+}
+
+// --------------------------------------------
+
+// ____________________________________________
+// --------------- Functions ------------------
+
+/**
+ * @param [&out] data
+ */
+fn void initData(Data* data)
+{
+  initMeta(&data.meta);
+}
+
+/**
+ * @param [&out] meta 
+ */
+fn void initMeta(Meta* meta)
+{
+  meta.binary_path = helpers::getBinaryPath();
+  
+  $if(!$feature(NDEBUG)):
+    io::printfn("Detected binary path = %s", meta.binary_path);
+  $endif
+}
+
+// --------------------------------------------
+
+
+
+// ____________________________________________
+// ------------- Starting Point ---------------
 
 fn int main(String[] args)
 {
-  glfw::init();
-  defer glfw::terminate();
-
-  glfw::Window* window = glfw::createWindow(WIDTH, HEIGHT, "Hello, C3!", null, null);
-  defer glfw::destroyWindow(window);
-  
-  if (window == null) {
-    io::printn("Failed to create GLFW window");
-    return 1;
-  }
-
-  glfw::makeContextCurrent(window);
-
-  while (!glfw::windowShouldClose(window)) {
-    glfw::swapBuffers(window);
-    glfw::pollEvents();
-  }
-
+  Data data @noinit;
+  initData(&data);
 	return 0;
 }
+
+// --------------------------------------------
+
