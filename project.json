@@ -1,0 +1,17 @@
+{
+  "langrev": "1",
+  "warnings":  [ "no-unused" ],
+  "dependency-search-paths":  [ "lib" ],
+  "dependencies":  [ "vulkan", "glfw" ],
+  "linked-libraries":  [  ],
+  "authors":  [ "Adam <sugharevmail@gmail.com>" ],
+  "version": "0.1.0",
+  "sources":  [ "src/**" ],
+  "output": "build",
+  "targets": {
+    "basic": {
+      "type": "executable"
+    }
+  },
+  "opt": "O0"
+}
